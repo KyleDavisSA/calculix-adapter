@@ -607,7 +607,7 @@ void PreciceInterface_ConfigureNodesMesh( PreciceInterface * interface, Simulati
 	  // Add new "fake" neural network mesh that is a copy of the Calculix Mesh
 	  nodesMeshIDNN = precicec_getMeshID( "Solid-NN-Nodes-Mesh" );
 	  forcesDataIDNN = precicec_getDataID( "ForceNN",  nodesMeshIDNN);
-	  dispDataIDNN = precicec_getDataID( "displacementDeltaNN",  nodesMeshIDNN);
+	  dispDataIDNN = precicec_getDataID( "DisplacementDeltaNN",  nodesMeshIDNN);
 	  precicec_setMeshVertices( nodesMeshIDNN, interface->numNodes, interface->nodeCoordinates, interface->preciceNodeIDs );
     }
 	}
