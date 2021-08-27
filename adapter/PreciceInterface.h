@@ -143,7 +143,9 @@ typedef struct SimulationData {
 
 } SimulationData;
 
-
+int nodesMeshIDNN;
+int forcesDataIDNN;
+int dispDataIDNN;
 
 /**
  * @brief Configures and initializes preCICE and the interfaces
