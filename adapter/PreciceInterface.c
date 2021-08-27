@@ -228,10 +228,12 @@ void Precice_ReadCouplingData( SimulationData * sim )
           else
           {
 			  if (useNeuralNetwork){
-				precicec_readBlockVectorData( forcesDataIDNN, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
+				//precicec_readBlockVectorData( forcesDataIDNN, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
+				precicec_readBlockVectorData( interfaces[i]->forcesDataID, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
 			  } else {
 				precicec_readBlockVectorData( interfaces[i]->forcesDataID, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
 			  }
+			  printf("Read forces: %f \n", interfaces[i]->nodeVectorData[33]);
             
           }
 					setNodeForces( interfaces[i]->nodeVectorData, interfaces[i]->numNodes, interfaces[i]->dimCCX, interfaces[i]->xforcIndices, sim->xforc);
@@ -376,6 +378,10 @@ void Precice_WriteCouplingData( SimulationData * sim )
 					break;
 				case DISPLACEMENTDELTAS:
 					getNodeDisplacementDeltas( interfaces[i]->nodeIDs, interfaces[i]->numNodes, interfaces[i]->dimCCX, sim->vold, sim->coupling_init_v, sim->mt, interfaces[i]->nodeVectorData );
+					for (int j = 0; j < interfaces[i]->numNodes; j++)
+					{
+						printf("node Data Calculix = %f \n", interfaces[i]->nodeVectorData[j]);
+					}
           if ( isQuasi2D3D(interfaces[i]->quasi2D3D) )
           {
             setDoubleArrayZero(interfaces[i]->node2DVectorData, interfaces[i]->num2DNodes, interfaces[i]->dim);
@@ -384,8 +390,12 @@ void Precice_WriteCouplingData( SimulationData * sim )
           }
           else
           {
+			
             precicec_writeBlockVectorData( interfaces[i]->displacementDeltasDataID, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
-			precicec_writeBlockVectorData( dispDataIDNN, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
+			int dispDataIDNN = precicec_getDataID( "DisplacementDelta",  nodesMeshIDNN);
+			printf("interfaces[i]->displacementDeltasDataID = %d \n", interfaces[i]->displacementDeltasDataID);
+			printf("dispDataIDNN = %d \n", dispDataIDNN);
+			//precicec_writeBlockVectorData( dispDataIDNN, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
           }
 					printf( "Writing DISPLACEMENTDELTAS coupling data with ID '%d'. \n",interfaces[i]->displacementDeltasDataID );
 					break;
@@ -494,7 +504,7 @@ void PreciceInterface_Create( PreciceInterface * interface, SimulationData * sim
 	interface->nodesMeshID = -1;
 	nodesMeshIDNN = -1;
 	forcesDataIDNN = -1;
-	dispDataIDNN = -1;
+	//dispDataIDNN = -1;
 	interface->nodesMeshName = NULL;
   if ( config->nodesMeshName ) {
     interface->nodesMeshName = strdup( config->nodesMeshName );
@@ -607,7 +617,7 @@ void PreciceInterface_ConfigureNodesMesh( PreciceInterface * interface, Simulati
 	  // Add new "fake" neural network mesh that is a copy of the Calculix Mesh
 	  nodesMeshIDNN = precicec_getMeshID( "Solid-NN-Nodes-Mesh" );
 	  forcesDataIDNN = precicec_getDataID( "ForceNN",  nodesMeshIDNN);
-	  dispDataIDNN = precicec_getDataID( "DisplacementDeltaNN",  nodesMeshIDNN);
+	  int dispDataIDNN = precicec_getDataID( "DisplacementDelta",  nodesMeshIDNN);
 	  precicec_setMeshVertices( nodesMeshIDNN, interface->numNodes, interface->nodeCoordinates, interface->preciceNodeIDs );
     }
 	}
