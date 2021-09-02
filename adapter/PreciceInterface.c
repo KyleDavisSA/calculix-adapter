@@ -233,7 +233,7 @@ void Precice_ReadCouplingData( SimulationData * sim )
 			  } else {
 				precicec_readBlockVectorData( interfaces[i]->forcesDataID, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
 			  }
-			  printf("Read forces: %f \n", interfaces[i]->nodeVectorData[33]);
+			  //printf("Read forces: %f \n", interfaces[i]->nodeVectorData[33]);
             
           }
 					setNodeForces( interfaces[i]->nodeVectorData, interfaces[i]->numNodes, interfaces[i]->dimCCX, interfaces[i]->xforcIndices, sim->xforc);
@@ -378,10 +378,10 @@ void Precice_WriteCouplingData( SimulationData * sim )
 					break;
 				case DISPLACEMENTDELTAS:
 					getNodeDisplacementDeltas( interfaces[i]->nodeIDs, interfaces[i]->numNodes, interfaces[i]->dimCCX, sim->vold, sim->coupling_init_v, sim->mt, interfaces[i]->nodeVectorData );
-					for (int j = 0; j < interfaces[i]->numNodes; j++)
+					/*for (int j = 0; j < interfaces[i]->numNodes; j++)
 					{
 						printf("node Data Calculix = %f \n", interfaces[i]->nodeVectorData[j]);
-					}
+					}*/
           if ( isQuasi2D3D(interfaces[i]->quasi2D3D) )
           {
             setDoubleArrayZero(interfaces[i]->node2DVectorData, interfaces[i]->num2DNodes, interfaces[i]->dim);
