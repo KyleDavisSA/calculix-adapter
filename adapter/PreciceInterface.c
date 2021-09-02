@@ -395,7 +395,7 @@ void Precice_WriteCouplingData( SimulationData * sim )
 			int dispDataIDNN = precicec_getDataID( "DisplacementDelta",  nodesMeshIDNN);
 			printf("interfaces[i]->displacementDeltasDataID = %d \n", interfaces[i]->displacementDeltasDataID);
 			printf("dispDataIDNN = %d \n", dispDataIDNN);
-			//precicec_writeBlockVectorData( dispDataIDNN, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
+			precicec_writeBlockVectorData( dispDataIDNN, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
           }
 					printf( "Writing DISPLACEMENTDELTAS coupling data with ID '%d'. \n",interfaces[i]->displacementDeltasDataID );
 					break;
