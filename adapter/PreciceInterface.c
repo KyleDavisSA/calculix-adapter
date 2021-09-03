@@ -169,8 +169,8 @@ void Precice_ReadCouplingData( SimulationData * sim )
 	printf( "Adapter reading coupling data...\n" );
 	fflush( stdout );
 
-	//int useNeuralNetwork = precicec_isTimeWindowComplete();
-	int useNeuralNetwork = 0;
+	int useNeuralNetwork = precicec_isTimeWindowComplete();
+	//int useNeuralNetwork = 0;
 	printf(" Using neural network values: %d \n ", useNeuralNetwork);
 
 	PreciceInterface ** interfaces = sim->preciceInterfaces;
