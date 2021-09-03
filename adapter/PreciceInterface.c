@@ -169,7 +169,7 @@ void Precice_ReadCouplingData( SimulationData * sim )
 	printf( "Adapter reading coupling data...\n" );
 	fflush( stdout );
 
-	bool useNeuralNetwork = precicec_isTimeWindowComplete();
+	int useNeuralNetwork = precicec_isTimeWindowComplete();
 	printf(" Using neural network values: %d \n ", useNeuralNetwork);
 
 	PreciceInterface ** interfaces = sim->preciceInterfaces;
@@ -227,9 +227,9 @@ void Precice_ReadCouplingData( SimulationData * sim )
           }
           else
           {
-			  if (useNeuralNetwork){
-				//precicec_readBlockVectorData( forcesDataIDNN, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
-				precicec_readBlockVectorData( interfaces[i]->forcesDataID, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
+			  if (useNeuralNetwork == 1){
+				precicec_readBlockVectorData( forcesDataIDNN, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
+				//precicec_readBlockVectorData( interfaces[i]->forcesDataID, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
 			  } else {
 				precicec_readBlockVectorData( interfaces[i]->forcesDataID, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
 			  }
@@ -390,7 +390,6 @@ void Precice_WriteCouplingData( SimulationData * sim )
           }
           else
           {
-			
             precicec_writeBlockVectorData( interfaces[i]->displacementDeltasDataID, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
 			int dispDataIDNN = precicec_getDataID( "DisplacementDelta",  nodesMeshIDNN);
 			printf("interfaces[i]->displacementDeltasDataID = %d \n", interfaces[i]->displacementDeltasDataID);
