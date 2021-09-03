@@ -169,7 +169,8 @@ void Precice_ReadCouplingData( SimulationData * sim )
 	printf( "Adapter reading coupling data...\n" );
 	fflush( stdout );
 
-	int useNeuralNetwork = precicec_isTimeWindowComplete();
+	//int useNeuralNetwork = precicec_isTimeWindowComplete();
+	int useNeuralNetwork = 0;
 	printf(" Using neural network values: %d \n ", useNeuralNetwork);
 
 	PreciceInterface ** interfaces = sim->preciceInterfaces;
@@ -373,6 +374,10 @@ void Precice_WriteCouplingData( SimulationData * sim )
           else
           {
             precicec_writeBlockVectorData( interfaces[i]->displacementsDataID, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
+			int dispDataIDNN = precicec_getDataID( "Displacement",  nodesMeshIDNN);
+			printf("interfaces[i]->displacementsDataID = %d \n", interfaces[i]->displacementDeltasDataID);
+			printf("dispDataIDNN = %d \n", dispDataIDNN);
+			precicec_writeBlockVectorData( dispDataIDNN, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
           }
 					printf( "Writing DISPLACEMENTS coupling data with ID '%d'. \n",interfaces[i]->displacementsDataID );
 					break;
@@ -391,7 +396,7 @@ void Precice_WriteCouplingData( SimulationData * sim )
           else
           {
             precicec_writeBlockVectorData( interfaces[i]->displacementDeltasDataID, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
-			int dispDataIDNN = precicec_getDataID( "DisplacementDelta",  nodesMeshIDNN);
+			int dispDataIDNN = precicec_getDataID( "DisplacementDeltas",  nodesMeshIDNN);
 			printf("interfaces[i]->displacementDeltasDataID = %d \n", interfaces[i]->displacementDeltasDataID);
 			printf("dispDataIDNN = %d \n", dispDataIDNN);
 			precicec_writeBlockVectorData( dispDataIDNN, interfaces[i]->numNodes, interfaces[i]->preciceNodeIDs, interfaces[i]->nodeVectorData );
@@ -616,7 +621,7 @@ void PreciceInterface_ConfigureNodesMesh( PreciceInterface * interface, Simulati
 	  // Add new "fake" neural network mesh that is a copy of the Calculix Mesh
 	  nodesMeshIDNN = precicec_getMeshID( "Solid-NN-Nodes-Mesh" );
 	  forcesDataIDNN = precicec_getDataID( "ForceNN",  nodesMeshIDNN);
-	  int dispDataIDNN = precicec_getDataID( "DisplacementDelta",  nodesMeshIDNN);
+	  //int dispDataIDNN = precicec_getDataID( "DisplacementDelta",  nodesMeshIDNN);
 	  precicec_setMeshVertices( nodesMeshIDNN, interface->numNodes, interface->nodeCoordinates, interface->preciceNodeIDs );
     }
 	}
