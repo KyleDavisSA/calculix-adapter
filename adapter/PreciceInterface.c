@@ -46,8 +46,8 @@ void Precice_Setup( char * configFilename, char * participantName, SimulationDat
 		PreciceInterface_Create( sim->preciceInterfaces[i], sim, config );
 	}
 
-  // At this point we are done with the configuration
-  AdapterConfig_Free(&adapterConfig);
+    // At this point we are done with the configuration
+    AdapterConfig_Free(&adapterConfig);
 
 	// Initialize variables needed for the coupling
 	NNEW( sim->coupling_init_v, double, sim->mt * sim->nk );
@@ -55,7 +55,7 @@ void Precice_Setup( char * configFilename, char * participantName, SimulationDat
 	// Initialize preCICE
 	sim->precice_dt = precicec_initialize();
 
-  // Initialize coupling data
+    // Initialize coupling data
 	Precice_InitializeData( sim );
 }
 
@@ -66,7 +66,7 @@ void Precice_InitializeData( SimulationData * sim )
 
 	Precice_WriteCouplingData( sim );
 	precicec_initialize_data();
-  Precice_ReadCouplingData( sim );
+    Precice_ReadCouplingData( sim );
 }
 
 void Precice_AdjustSolverTimestep( SimulationData * sim )
