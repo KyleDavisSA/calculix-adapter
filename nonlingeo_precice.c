@@ -1310,9 +1310,10 @@ void nonlingeo_precice(double **cop, ITG *nk, ITG **konp, ITG **ipkonp, char **l
   while( Precice_IsCouplingOngoing() ){
 
 
-      Precice_Advance( &simulationData );
-	  /* Adapter: Adjust solver time step */
+      
+      /* Adapter: Adjust solver time step */
       Precice_AdjustSolverTimestep( &simulationData );
+      Precice_Advance( &simulationData );
       /* Adapter read coupling data if available */
       Precice_ReadCouplingData( &simulationData );
 
