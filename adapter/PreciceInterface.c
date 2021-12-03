@@ -57,6 +57,8 @@ void Precice_Setup( char * configFilename, char * participantName, SimulationDat
 
     // Initialize coupling data
 	Precice_InitializeData( sim );
+
+	Precice_FulfilledWriteCheckpoint();
 }
 
 void Precice_InitializeData( SimulationData * sim )
@@ -168,7 +170,7 @@ void Precice_ReadCouplingData( SimulationData * sim )
 
 	printf( "Adapter reading coupling data...\n" );
 	fflush( stdout );
-
+	// Check if first time step and set to 1
 	int useNeuralNetwork = precicec_isTimeWindowComplete();
 	//int useNeuralNetwork = 0;
 	printf(" Using neural network values: %d \n ", useNeuralNetwork);
